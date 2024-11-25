@@ -1,6 +1,11 @@
 <html>
 <head>
 <title>Lista de alumnos</title>
+<script type="text/javascript">
+    function confirmar() {
+        return confirm('¿Estás Seguro?, se eliminarán los datos');
+    }
+</script>
 </head>
 <body>
 <?php
@@ -25,12 +30,13 @@
                 while($filas=mysqli_fetch_assoc($resultado)){
             ?>
             <tr>
-                <td><?php echo $filas['ID'] ?></td>
+                <td><?php echo $filas['id'] ?></td>
                 <td><?php echo $filas['nombre'] ?></td>
                 <td><?php echo $filas['nocontrol'] ?></td>
                 <td> 
-                <?php echo "<a href=''>EDITAR</a>"; ?>
-                <?php echo "<a href=''>ELIMINAR</a>"; ?>
+                <?php echo "<a href='editar.php?id=".$filas['id']."'>EDITAR</a>
+                "; ?>
+                <?php echo "<a href='eliminar.php?id=".$filas['id']."'onclick='return confirmar()'>ELIMINAR</a>"; ?>
                 </td>
             </tr>
             <?php
