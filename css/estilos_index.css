@@ -1,0 +1,123 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Estilos para el formulario de búsqueda */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+form a {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+form a:hover {
+    background-color: #d32f2f;
+}
+
+/* Estilos para la tabla */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table td {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para las acciones (editar, eliminar) */
+a {
+    padding: 5px 10px;
+    margin: 0 5px;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+a[href*="editar"] {
+    background-color: #4CAF50;
+}
+
+a[href*="editar"]:hover {
+    background-color: #45a049;
+}
+
+a[href*="eliminar"] {
+    background-color: #f44336;
+}
+
+a[href*="eliminar"]:hover {
+    background-color: #d32f2f;
+}
+
+/* Mensaje cuando no se encuentran resultados */
+table td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
+/* Estilos para el enlace de agregar nuevo alumno */
+a[href="agregar.php"] {
+    display: inline-block;
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+a[href="agregar.php"]:hover {
+    background-color: #006f8c;
+}
