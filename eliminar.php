@@ -1,19 +1,29 @@
-<?php 
-    $id=$_GET['id'];
-    include("conexion.php");
+<?php
+// Conexión a la base de datos
+include("conexion.php");
 
-    $sql="delete from alumnos where id='".$id."'";
-    $resultado=mysqli_query($conexion,$sql);
+// Lógica para eliminar un registro si se recibe el ID
+if (isset($_GET['id'])) {
+    $id = $_GET['id']; // ID del registro a eliminar
 
-    if($resultado){
-        echo "<script languaje='JavaScript'>
-                alert('Los datos se eliminaron correctamente de la BD');
+    // Consulta SQL para eliminar el registro de la base de datos
+    $sql = "DELETE FROM alumnos WHERE id='$id'";
+    $resultado = mysqli_query($conexion, $sql); // Ejecuta la consulta
+
+    // Mensaje de confirmación o error
+    if ($resultado) {
+        echo "<script language='JavaScript'>
+                alert('El registro se eliminó correctamente');
                 location.assign('index.php');
-                </script>";
-    }else{
-        echo "<script languaje='JavaScript'>
-                alert('Los datos NO se eliminaron de la BD');
+              </script>";
+    } else {
+        echo "<script language='JavaScript'>
+                alert('El registro NO se eliminó');
                 location.assign('index.php');
-                </script>";
+              </script>";
     }
+
+    // Cierra la conexión a la base de datos
+    mysqli_close($conexion);
+}
 ?>

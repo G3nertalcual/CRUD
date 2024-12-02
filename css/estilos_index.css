@@ -105,6 +105,14 @@ table td[colspan] {
     color: #888;
 }
 
+/* Contenedor para los botones de acciones principales */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
 /* Estilos para el enlace de agregar nuevo alumno */
 a[href="agregar.php"] {
     display: inline-block;
@@ -114,7 +122,6 @@ a[href="agregar.php"] {
     border-radius: 3px;
     text-decoration: none;
     font-size: 16px;
-    margin-top: 10px;
     text-align: center;
 }
 

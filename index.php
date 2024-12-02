@@ -1,77 +1,102 @@
 <html>
 <head>
     <title>Lista de alumnos</title>
-    <link rel="stylesheet" type="text/css" href="css/estilos_index.css">
+    <!-- Archivo CSS específico para estilizar la página principal -->
+    <link rel="stylesheet" href="css/estilos_index.css">
     <script type="text/javascript">
+        // Función de confirmación para eliminar un registro
         function confirmar() {
             return confirm('¿Estás Seguro?, se eliminarán los datos');
         }
     </script>
 </head>
 <body>
-<?php
-    include("conexion.php");
+    <?php
+        // Conexión a la base de datos
+        include("conexion.php");
 
-    // Verificar si se envió una consulta de búsqueda
-    $buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
+        // Lógica para determinar si se realiza una búsqueda
+        $buscar = isset($_GET['buscar']) ? $_GET['buscar'] : ''; // Verifica si hay un valor en el campo de búsqueda
 
-    // Construir la consulta SQL según si hay búsqueda o no
-    if ($buscar) {
-        $sql = "SELECT * FROM alumnos WHERE nombre LIKE '%$buscar%' OR nocontrol LIKE '%$buscar%'";
-    } else {
-        $sql = "SELECT * FROM alumnos";
-    }
+        if ($buscar != '') {
+            // Consulta SQL para buscar coincidencias por nombre o número de control
+            $sql = "SELECT * FROM alumnos WHERE 
+                    nombre LIKE '%$buscar%' OR 
+                    nocontrol LIKE '%$buscar%'";
+        } else {
+            // Consulta SQL general para listar todos los registros
+            $sql = "SELECT * FROM alumnos";
+        }
 
-    $resultado = mysqli_query($conexion, $sql);
-?>
+        // Ejecución de la consulta en la base de datos
+        $resultado = mysqli_query($conexion, $sql);
+    ?>
+
+    <!-- Título de la página -->
     <h1>Lista de Alumnos</h1>
 
-    <!-- Formulario de búsqueda -->
-    <form method="get" action="">
-        <input type="text" name="buscar" placeholder="Buscar por nombre o No. Control" value="<?php echo htmlspecialchars($buscar); ?>">
+    <!-- Formulario para realizar búsquedas -->
+    <form action="index.php" method="GET">
+        <input type="text" name="buscar" placeholder="Buscar por nombre o No. control" value="<?php echo htmlspecialchars($buscar); ?>">
         <input type="submit" value="Buscar">
-        <a href="index.php">Restablecer</a>
+        <!-- Enlace para limpiar la búsqueda y recargar la página -->
+        <a href="index.php">Limpiar búsqueda</a>
     </form>
 
-    <a href="agregar.php">Nuevo alumno</a><br><br>
+    <!-- Botón para agregar un nuevo alumno -->
+    <div class="action-buttons">
+        <a href="agregar.php">Nuevo alumno</a>
+    </div>
 
+    <!-- Tabla que muestra los datos de los alumnos -->
     <table>
         <thead>
             <tr>
+                <!-- Encabezados de las columnas -->
                 <th>No.</th>
                 <th>Nombre</th>
-                <th>No. control</th>
+                <th>No. Control</th>
+                <th>Trabajo en equipo</th>
+                <th>Responsabilidad</th>
+                <th>Creatividad</th>
+                <th>Comunicación</th>
+                <th>Esfuerzo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php
+                // Verifica si la consulta devuelve resultados
                 if (mysqli_num_rows($resultado) > 0) {
+                    // Recorre cada registro obtenido
                     while ($filas = mysqli_fetch_assoc($resultado)) {
-            ?>
-            <tr>
-                <td><?php echo $filas['id'] ?></td>
-                <td><?php echo $filas['nombre'] ?></td>
-                <td><?php echo $filas['nocontrol'] ?></td>
-                <td> 
-                    <?php echo "<a href='editar.php?id=".$filas['id']."'>EDITAR</a>"; ?>
-                    <?php echo "<a href='eliminar.php?id=".$filas['id']."' onclick='return confirmar()'>ELIMINAR</a>"; ?>
-                </td>
-            </tr>
-            <?php
+                        echo "<tr>";
+                        // Muestra cada columna en la fila correspondiente
+                        echo "<td>{$filas['id']}</td>";
+                        echo "<td>{$filas['nombre']}</td>";
+                        echo "<td>{$filas['nocontrol']}</td>";
+                        echo "<td>{$filas['trabajo_equipo']}</td>";
+                        echo "<td>{$filas['responsabilidad']}</td>";
+                        echo "<td>{$filas['creatividad']}</td>";
+                        echo "<td>{$filas['comunicacion']}</td>";
+                        echo "<td>{$filas['esfuerzo']}</td>";
+                        // Enlaces para editar o eliminar un registro
+                        echo "<td>
+                            <a href='editar.php?id={$filas['id']}'>Editar</a>
+                            <a href='eliminar.php?id={$filas['id']}' onclick='return confirmar()'>Eliminar</a>
+                          </td>";
+                        echo "</tr>";
                     }
                 } else {
-                    // Mensaje cuando no hay resultados
-            ?>
-            <tr>
-                <td colspan="4">No se encontraron resultados para la búsqueda "<?php echo htmlspecialchars($buscar); ?>"</td>
-            </tr>
-            <?php
+                    // Mensaje si no hay registros en la base de datos
+                    echo "<tr><td colspan='9'>No se encontraron alumnos.</td></tr>";
                 }
             ?>
         </tbody>
     </table>
+
     <?php
+        // Cierra la conexión a la base de datos
         mysqli_close($conexion);
     ?>
 </body>

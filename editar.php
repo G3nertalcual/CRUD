@@ -1,24 +1,28 @@
 <?php 
+// Conexión a la base de datos
 include("conexion.php");
 ?>
 <html>
 <head>
+    <!-- Archivo CSS específico para estilizar esta página -->
     <link rel="stylesheet" type="text/css" href="css/estilos.css">
     <title>EDITAR</title>
 </head>
 <body>
 <?php
-if(isset($_POST['enviar'])) {
-    $id=$_POST['id'];
-    $nombre=$_POST['nombre'];
-    $nocontrol=$_POST['nocontrol'];
-    $trabajo_equipo=$_POST['trabajo_equipo'];
-    $responsabilidad=$_POST['responsabilidad'];
-    $creatividad=$_POST['creatividad'];
-    $comunicacion=$_POST['comunicacion'];
-    $esfuerzo=$_POST['esfuerzo'];
+// Lógica para actualizar los datos al enviar el formulario
+if (isset($_POST['enviar'])) {
+    $id = $_POST['id']; // ID del registro a editar
+    $nombre = $_POST['nombre']; // Nuevos datos
+    $nocontrol = $_POST['nocontrol'];
+    $trabajo_equipo = $_POST['trabajo_equipo'];
+    $responsabilidad = $_POST['responsabilidad'];
+    $creatividad = $_POST['creatividad'];
+    $comunicacion = $_POST['comunicacion'];
+    $esfuerzo = $_POST['esfuerzo'];
 
-    $sql="UPDATE alumnos SET 
+    // Consulta SQL para actualizar el registro
+    $sql = "UPDATE alumnos SET 
         nombre='$nombre', 
         nocontrol='$nocontrol',
         trabajo_equipo='$trabajo_equipo',
@@ -27,9 +31,10 @@ if(isset($_POST['enviar'])) {
         comunicacion='$comunicacion',
         esfuerzo='$esfuerzo' 
         WHERE id='$id'";
-    $resultado=mysqli_query($conexion, $sql);
+    $resultado = mysqli_query($conexion, $sql); // Ejecuta la consulta
 
-    if($resultado) {
+    // Mensaje de confirmación o error
+    if ($resultado) {
         echo "<script language='JavaScript'>
                 alert('Los datos se actualizaron correctamente');
                 location.assign('index.php');
@@ -40,17 +45,23 @@ if(isset($_POST['enviar'])) {
                 location.assign('index.php');
               </script>";
     }
+
+    // Cierra la conexión a la base de datos
     mysqli_close($conexion);
 } else {            
-    $id=$_GET['id'];
-    $sql="SELECT * FROM alumnos WHERE id='$id'";
-    $resultado=mysqli_query($conexion, $sql);
-    $fila=mysqli_fetch_assoc($resultado);
+    // Si no se envió el formulario, obtiene el registro a editar
+    $id = $_GET['id']; // ID del registro
+    $sql = "SELECT * FROM alumnos WHERE id='$id'"; // Consulta para obtener los datos
+    $resultado = mysqli_query($conexion, $sql); // Ejecuta la consulta
+    $fila = mysqli_fetch_assoc($resultado); // Obtiene el registro como un array asociativo
 
+    // Cierra la conexión a la base de datos
     mysqli_close($conexion);
 ?>
+    <!-- Formulario para editar los datos -->
     <h1>Editar Alumno</h1>
     <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+        <!-- Campos prellenados con los datos actuales -->
         <label>Nombre:</label>
         <input type="text" name="nombre" value="<?php echo $fila['nombre']; ?>"> <br>
 
@@ -72,10 +83,11 @@ if(isset($_POST['enviar'])) {
         <label>Esfuerzo:</label>
         <input type="number" name="esfuerzo" min="1" max="10" value="<?php echo $fila['esfuerzo']; ?>"> <br>
 
+        <!-- Campo oculto para enviar el ID del registro -->
         <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-        <input type="submit" name="enviar" value="ACTUALIZAR">
-        <a href="index.php">Regresar</a>
+        <input type="submit" name="enviar" value="ACTUALIZAR"> <!-- Botón para actualizar -->
+        <a href="index.php">Regresar</a> <!-- Enlace para volver a la página principal -->
     </form>
 <?php
 }
